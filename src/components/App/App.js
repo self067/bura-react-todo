@@ -20,7 +20,6 @@ export default class App extends PureComponent {
   };
 
 deleteItem = (id) => {
-  console.log(id);
   this.setState(({ todoData }) => {
     const idx = todoData.findIndex((el) => el.id === id);
     const newArr = [...todoData.slice(0, idx), ...todoData.slice(idx+1)];
@@ -28,7 +27,7 @@ deleteItem = (id) => {
   });
 }
 
-  render() {
+render() {
   return (
     <div className="todo-app">
       {/* {isLoggedIn ? null : loginBox } */}
