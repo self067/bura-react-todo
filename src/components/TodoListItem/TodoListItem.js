@@ -42,14 +42,6 @@ export default class TodoListItem extends PureComponent {
     if (done) classNames += ' done';
     if (important) classNames += ' important';
 
-    // const style = {
-    //   color: important ? 'steelblue' : 'black',
-    //   fontWeight: important ? 'bold' : 'normal',
-    // };
-
-
-
-
     return (
       <span className={classNames}>
         <span

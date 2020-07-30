@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent} from 'react';
 
 import AppHeader from '../AppHeader';
 import SearchPanel from '../SearchPanel';
@@ -8,15 +8,27 @@ import ItemStatusFilter from '../ItemStatusFilter';
 import './App.css';
 
 
-// const isLoggedIn = false;
-// const loginBox = <span>Log in please</span>;
-const App = () => {
-  const todoData = [
+
+export default class App extends PureComponent {
+
+  state = {
+    todoData: [
     { label: 'Drink', important: false, id: 1},
     { label: 'Make some', important: true, id: 2},
     { label: 'Have a Lunch', important: false, id: 3},
-  ];
+    ]
+  };
 
+deleteItem = (id) => {
+  console.log(id);
+  this.setState(({ todoData }) => {
+    const idx = todoData.findIndex((el) => el.id === id);
+    const newArr = [...todoData.slice(0, idx), ...todoData.slice(idx+1)];
+    return { todoData: newArr };
+  });
+}
+
+  render() {
   return (
     <div className="todo-app">
       {/* {isLoggedIn ? null : loginBox } */}
@@ -29,10 +41,9 @@ const App = () => {
       </div>
 
       <TodoList 
-        todos={todoData} 
-        onDeleted={(id)=> console.log(id)}/>
+        todos={this.state.todoData} 
+        onDeleted={ this.deleteItem }/>
     </div>
   );
+  }
 };
-
-export default App;
