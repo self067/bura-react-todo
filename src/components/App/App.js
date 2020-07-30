@@ -4,12 +4,13 @@ import AppHeader from '../AppHeader';
 import SearchPanel from '../SearchPanel';
 import TodoList from '../TodoList';
 import ItemStatusFilter from '../ItemStatusFilter';
+import ItemAddForm from '../ItemAddForm';
 
 import './App.css';
 
-
-
 export default class App extends PureComponent {
+
+  maxId = 100;
 
   state = {
     todoData: [
@@ -24,6 +25,20 @@ deleteItem = (id) => {
     const idx = todoData.findIndex((el) => el.id === id);
     const newArr = [...todoData.slice(0, idx), ...todoData.slice(idx+1)];
     return { todoData: newArr };
+  });
+}
+
+addItem = (text) => {
+  console.log(text);
+  const newItem = {
+    label: text,
+    important: false,
+    id: this.maxId++,
+  };
+  this.setState(({todoData}) => {
+    return {
+      todoData: [...todoData, newItem],
+    };
   });
 }
 
@@ -42,7 +57,8 @@ render() {
       <TodoList 
         todos={this.state.todoData} 
         onDeleted={ this.deleteItem }/>
+      <ItemAddForm onItemAdded={this.addItem}/>
     </div>
   );
-  }
-};
+}
+}

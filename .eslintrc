@@ -21,8 +21,8 @@
 	    "html": "ignore",
 	    "custom": "ignore",
 	    "explicitSpread": "ignore",
-
-}]
+		}],
+    "no-plusplus": 0,
 
 
 }
