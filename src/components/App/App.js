@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 import AppHeader from '../AppHeader';
 import SearchPanel from '../SearchPanel';
@@ -29,7 +28,9 @@ const App = () => {
         <ItemStatusFilter />
       </div>
 
-      <TodoList todos={todoData} />
+      <TodoList 
+        todos={todoData} 
+        onDeleted={(id)=> console.log(id)}/>
     </div>
   );
 };
