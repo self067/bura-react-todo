@@ -3,41 +3,12 @@ import './TodoListItem.css';
 
 export default class TodoListItem extends PureComponent {
 
-  constructor() {
-    super();
-    this.onLabelClick = () => {
-      // console.log(`${this.props.label}`);
-      this.setState(({done}) => {
-        return {
-          done: !done,
-        };
-      });
-    };
-    this.state = {
-      done: false,
-      important: false,
-    };
-  }
-
-  onBasketClick = () => {
-    this.setState((state) => {
-      return {
-        done: !state.done,
-      };
-    });
-  };
-
-  onImportantClick = () => {
-    this.setState((state) => {
-      return {
-        important: !state.important,
-      };
-    });
-  };
-
   render() {
-    const {label, onDeleted} = this.props;
-    const {done, important = false } = this.state;
+    const {label, onDeleted,
+      onToggleDone,
+      onToggleImportant,
+      important, done} = this.props;
+
     let classNames = 'todo-list-item';
     if (done) classNames += ' done';
     if (important) classNames += ' important';
@@ -46,19 +17,19 @@ export default class TodoListItem extends PureComponent {
       <span className={classNames}>
         <span
           className="todo-list-item-label"
-          onClick={ this.onLabelClick} >
+          onClick={onToggleDone} >
           {label}
         </span>
 
         <button
           type="button"
           className="btn btn-outline-success btn-sm float-right"
-          onClick={this.onImportantClick}
+          onClick={onToggleImportant}
         >
           <i className="fa fa-exclamation" />
         </button>
 
-        <button 
+        <button
           type="button"
           className="btn btn-outline-danger btn-sm float-right"
           onClick={onDeleted}
