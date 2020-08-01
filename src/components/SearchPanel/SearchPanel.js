@@ -11,6 +11,7 @@ export default class SearchPanel extends PureComponent {
     this.setState({ term });
     this.props.onSearchChange(term);
   }
+
   render() {
     return (
       <input

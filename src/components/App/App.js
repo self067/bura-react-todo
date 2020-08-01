@@ -9,6 +9,7 @@ import ItemAddForm from '../ItemAddForm';
 import './App.css';
 
 export default class App extends PureComponent {
+
   static toggleProperty(arr, id, propName) {
     const idx = arr.findIndex((el) => el.id === id);
     const oldItem = arr[idx];
@@ -33,6 +34,20 @@ export default class App extends PureComponent {
     });
   }
 
+  static filter( items, filter) {
+    switch(filter) {
+      case 'all':
+        return items;
+      case 'active':
+        return items.filter((item) => !item.done);
+      case 'done':
+        return items.filter((item) => item.done);
+      default:
+        return items;
+
+    }
+  }
+
   maxId = 100;
 
   state = {
@@ -42,6 +57,7 @@ export default class App extends PureComponent {
       this.createTodoItem('Have a Lunch'),
     ],
     term: '',
+    filter: 'all' //active, all, done
   };
 
 deleteItem = (id) => {
@@ -64,7 +80,7 @@ addItem = (text) => {
 onToggleImportant = (id) => {
   this.setState(({ todoData }) => {
     return {
-      todoData: this.toggleProperty(todoData, id, 'important'),
+      todoData: App.toggleProperty(todoData, id, 'important'),
     };
   });
 };
@@ -72,13 +88,17 @@ onToggleImportant = (id) => {
 onToggleDone = (id) => {
   this.setState(({ todoData }) => {
     return {
-      todoData: this.toggleProperty(todoData, id, 'done'),
+      todoData: App.toggleProperty(todoData, id, 'done'),
     };
   });
 };
 
 onSearchChange = (term) => {
   this.setState({ term });
+};
+
+onFilterChange = (filter) => {
+  this.setState({ filter });
 };
 
 createTodoItem(label) {
@@ -91,8 +111,10 @@ createTodoItem(label) {
 }
 
 render() {
-  const { todoData, term } = this.state;
-  const visibleItems = App.search(todoData, term);
+  const { todoData, term, filter } = this.state;
+  const visibleItems = App.filter(
+    App.search(todoData, term),
+    filter);
   const doneCount = todoData
     .filter((el) => el.done).length;
   const todoCount = todoData.length - doneCount;
@@ -101,9 +123,11 @@ render() {
     <div className="todo-app">
       <AppHeader toDo={todoCount} done={doneCount} />
       <div className="top-panel d-flex">
-        <SearchPanel 
+        <SearchPanel
           onSearchChange={this.onSearchChange}/>
-        <ItemStatusFilter />
+        <ItemStatusFilter
+          filter={filter}
+          onFilterChange={this.onFilterChange}/>
       </div>
 
       <TodoList
